@@ -1,0 +1,41 @@
+.product {
+    display: block;
+    width: 25%;
+    position: relative;
+    text-align: center;
+    float: left;
+}
+.product:hover .button-set {
+    opacity: 1;
+    bottom: 10px;
+}
+.product-view {
+    width: 100%;
+    position: relative;
+    overflow: hidden;  
+}
+.product-name {
+    display: block;
+    overflow: hidden;
+}
+.product-price {
+    font-weight: 700;
+}
+.button-set {
+    position: absolute;
+    width: 100%;
+    bottom: -30px;
+    transition: all .3s ease-out;
+    z-index: 3;
+    opacity: 0;
+}
+.button-set a {
+    margin: 5px;
+    padding: 5px;
+}
+/*reponsive*/
+@media screen and (max-width: 480px) {
+    .product {
+        width: 33%;
+    }
+}
