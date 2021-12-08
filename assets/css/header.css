@@ -111,8 +111,9 @@ a:hover {
     z-index: 30;
 }
 /* main */ 
-.main {
-    margin-top: 30px;
+#main {
+    background-color: rgba(220,220,220, .5);
+    margin-top: 1rem;
 }
 .main__carousel {
     position: relative;
@@ -196,7 +197,79 @@ a:hover {
     width: 300px;
     object-fit: cover;
 }
-
+/* flash sale css */
+.main__flashsale-title  {
+    display: flex;
+    height: 4rem;
+    background-color: white;
+    align-items: center;
+    padding: 0 1rem;
+    border-bottom: 2px solid rgba(0,  0, 0, 0.3);
+    /* border-radius: 10px 10px 0px 0px;
+    box-shadow: 0px 0px 1px black; */
+}
+.main__flashsale-title h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: red;
+}
+.main__flashsale-thunder {
+    width: 1rem;
+    height: 2rem;
+    background-color: red;
+    clip-path: polygon(
+        30% 15%, 77% 10%, 50% 38%, 95% 29%, 20% 100%, 45% 48%, 8% 57% );
+    }
+.main__flashsale-product {
+    min-height: 300px;
+    background-color: white;
+    position: relative;
+}
+.main__flashsale-list {
+    overflow:hidden;
+}
+.main__flashsale-product::-webkit-scrollbar {
+    display: none;
+    width: 0px;
+}
+.main__flashsale-list .woocommerce  .products-list  {
+    display: flex;
+    width: 200%;
+}
+.main__flashsale-list .woocommerce  .products-list .product {
+    width: 10%;
+}
+.main__flashsale-checkbox {
+    display: none;
+}
+#main-flashsale-checkbox:checked ~ .main__flashsale-list .woocommerce  .products-list {
+    transform: translateX(100%);
+    transition: all 1s ease-in;
+}
+.main__flashsale-prev, .main__flashsale-next {
+    position: absolute;
+    top: calc(50% - 2rem);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2rem;
+    width: 2rem;
+    padding: 0;
+    text-align: center;
+    background: 0 0;
+    opacity: .5;
+    transition: opacity .15s ease;
+    box-shadow: 4px 3px 2px black;
+    border-radius: 50%;
+    background-color: red;
+}
+.main__flashsale-next {
+    right: -1rem;
+}
+.main__flashsale-prev {
+    left: -1rem;
+}
 /* reponsive */
 
 @media  screen and (max-width: 480px) {

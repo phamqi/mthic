@@ -1,3 +1,9 @@
+html {
+    font-size: 16px;
+}
+p.woocommerce-loop-product__title {
+    font-size: 0.8rem;
+}
 .product {
     display: block;
     width: 25%;
@@ -14,6 +20,69 @@
     position: relative;
     overflow: hidden;  
 }
+.product-img {
+    position: relative;
+    padding: 5px;
+}
+.product-sale {
+    line-height: 1.5rem;
+    font-size: 0.8rem;
+    position: absolute;
+    top: 1rem;
+    right: -2px;
+    padding: 0px 2px;
+    color: white;
+    background-color: red;
+    z-index: 20;
+  }
+  .product-sale:before {
+    content: "";
+    position: absolute;
+    height: 0;
+    width: 0;
+    top: -3.5px;
+    right: -0.9px;
+    border-bottom: 4px solid black;
+    border-right: 8px solid transparent;
+  }
+  .product-sale:after {
+    content: "";
+    position: absolute;
+    height: 0;
+    width: 0;
+    left: -7.5px;
+    border-top: 0.75rem solid transparent;
+    border-bottom: 0.75rem solid transparent;
+    border-right: 8px solid red;
+  }
+  .product-price {
+      font-size: 0.9rem;
+      font: 700;
+      color: red;
+  }
+ /* .product-sale--on {
+    color: white;
+    height: 25px;
+    font-size: 15px;
+    border-radius: 0px 0px 0px 15px;
+    right: 0;
+    position: absolute;
+    background: blue;
+    justify-content: center;
+    float: left;
+    padding: 0px 5px 0px 10px;
+}
+.product-sale--on:before {
+    content: "";
+    position: absolute;
+    right: 0px;
+    top: 25px;
+    background: transparent; 
+    box-shadow: 10px -10px 0px blue;
+    width: 30%;
+    height: 104%;
+    border-radius: 50%;
+} */
 .product-name {
     display: block;
     overflow: hidden;
@@ -35,6 +104,9 @@
 }
 /*reponsive*/
 @media screen and (max-width: 480px) {
+    html {
+        font-size: 13px;
+    }
     .product {
         width: 33%;
     }

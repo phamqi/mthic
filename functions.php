@@ -27,6 +27,57 @@ if ( ! function_exists( 'walletstore_setup' ) ) :
 		 * If you're building a theme based on Walletstore, use a find and replace
 		 * to change 'walletstore' to the name of your theme in all the template files.
 		 */
+		add_action( 'woocommerce_sale_flash', 'sale_badge_percentage', 25 );
+
+		remove_action( 'woocommerce_before_main_content' , 'woocommerce_breadcrumb' , 20, 0);
+ 
+		function sale_badge_percentage() {
+		global $product;
+		if ( ! $product->is_on_sale() ) return;
+		if ( $product->is_type( 'simple' ) ) {
+			$max_percentage = ( ( $product->get_regular_price() - $product->get_sale_price() ) / $product->get_regular_price() ) * 100;
+		} elseif ( $product->is_type( 'variable' ) ) {
+			$max_percentage = 0;
+			foreach ( $product->get_children() as $child_id ) {
+				$variation = wc_get_product( $child_id );
+				$price = $variation->get_regular_price();
+				$sale = $variation->get_sale_price();
+				if ( $price != 0 && ! empty( $sale ) ) $percentage = ( $price - $sale ) / $price * 100;
+				if ( $percentage > $max_percentage ) {
+					$max_percentage = $percentage;
+				}
+			}
+		}
+		if ( $max_percentage > 0 ) echo "<span class='product-sale'>-" . round($max_percentage) . "%</span>"; // If you would like to show -40% off then add text after % sign
+		}
+
+
+		if ( ! function_exists( 'woocommerce_template_loop_product_title' ) ) {
+
+			/**
+			 * Show the product title in the product loop. By default this is an H2.
+			 */
+			function my_woocommerce_template_loop_product_title() {
+				echo '</div><p title= "'. get_the_title() .'" class="' . esc_attr( apply_filters( 'woocommerce_product_loop_title_classes', 'woocommerce-loop-product__title' ) ) . '">' . get_the_title() . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			}
+		}
+		remove_action('woocommerce_shop_loop_item_title','woocommerce_template_loop_product_title',10);
+		add_action('woocommerce_shop_loop_item_title','my_woocommerce_template_loop_product_title',10);
+
+		if ( ! function_exists( 'woocommerce_template_loop_product_link_open' ) ) {
+			/**
+			 * Insert the opening anchor tag for products in the loop.
+			 */
+			function my_woocommerce_template_loop_product_link_open() {
+				global $product;
+		
+				$link = apply_filters( 'woocommerce_loop_product_link', get_the_permalink(), $product );
+		
+				echo '<a title="'. get_the_title() .'" href="' . esc_url( $link ) . '" class=" product-link woocommerce-LoopProduct-link woocommerce-loop-product__link"><div class="product-img">';
+			}
+		}
+		remove_action('woocommerce_before_shop_loop_item','woocommerce_template_loop_product_link_open',10);
+		add_action('woocommerce_before_shop_loop_item','my_woocommerce_template_loop_product_link_open',10);
 		add_theme_support('woocommerce');
 		add_theme_support('custom-logo');
 
