@@ -93,15 +93,49 @@ do_action( 'woocommerce_before_main_content' );
 		<div class="main__flashsale-product">
 			<input type="checkbox" id="main-flashsale-checkbox" class="main__flashsale-checkbox">
 			<div class="main__flashsale-list">		 	
-				<?php echo do_shortcode('[products limit="12" on_sale="true" ]'); ?>  <!--class="quick-sale" -->
+				<?php echo do_shortcode('[products limit="10" lazy_load="true" ]'); ?>  <!-- on_sale="true" class="quick-sale" -->
 			</div>
-		</div>
 		<label class="main__flashsale-prev" for="main-flashsale-checkbox"><i class="fas fa-chevron-left"></i></label>
 		<label class="main__flashsale-next" for="main-flashsale-checkbox"><i class="fas fa-chevron-right"></i></label>
-
+		</div>
+	<div class="main__bestsaller-title">
+			<h1>BEST SALLER</h1>
 	</div>
-
-<?php
+	<div class="main__bestsaller-product">
+		<div class="main__bestsaller-top">
+			<?php 
+			global $wpdb;
+			global $product;
+			$count = 1;
+				$results = $wpdb->get_results(
+					"SELECT min_price, product_id FROM $wpdb->wc_product_meta_lookup 
+					WHERE max_price = 20.000
+					LIMIT 3");
+				foreach($results as $release) {
+					if($count ==2) {
+						echo '<div class="main__bestsaller-23">';
+					}
+					echo '<div class="main__bestsaller-'. $count; echo '">';
+					echo '<span class="main__bestsaller-badge-'.$count.'">'.$count .'</span>';
+					echo '<a href="' .get_the_permalink($release->product_id) . '">';
+					echo '<div class="main__bestsaller-details">';
+					echo '<p>'; echo  get_the_title($release->product_id ); echo '</p>';
+					echo '<span>'. $release->min_price .'</span></div>';
+					echo '<img src="'; ?> <?php echo get_the_post_thumbnail_url($release->product_id); ?> <?php echo '"></a></div>';
+					if($count ==3) {
+						echo '</div>';
+					}
+					$count ++;
+				}
+			?>
+		</div>
+		<div class="main__bestsaller-bot">
+			<div class="main__bestsaller-list">
+				<?php echo do_shortcode('[products limit="10" lazy_load="true" ]'); ?>
+			</div>
+		</div>
+	</div> 
+<!-- <?php
 if ( woocommerce_product_loop() ) {
 
 	/**
@@ -158,7 +192,7 @@ do_action( 'woocommerce_after_main_content' );
  * @hooked woocommerce_get_sidebar - 10
  */
 do_action( 'woocommerce_sidebar' );
-?>
+?> -->
 </div>
 <?php 
 get_footer( 'shop' );

@@ -27,10 +27,65 @@ if ( ! function_exists( 'walletstore_setup' ) ) :
 		 * If you're building a theme based on Walletstore, use a find and replace
 		 * to change 'walletstore' to the name of your theme in all the template files.
 		 */
-		add_action( 'woocommerce_sale_flash', 'sale_badge_percentage', 25 );
+		// add_action( 'woocommerce_after_shop_loop_item_title', 'test', 5 );s
+		add_action('init', function(){
+		remove_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail', 10);
+		add_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail', 10);
+		});
+		if ( ! function_exists( 'woocommerce_template_loop_product_thumbnail' ) ) {
+			function woocommerce_template_loop_product_thumbnail() {
+				echo woocommerce_get_product_thumbnail();
+			} 
+		}
+		if ( ! function_exists( 'woocommerce_get_product_thumbnail' ) ) {   
+			function woocommerce_get_product_thumbnail( $size = 'shop_catalog' ) {
+				global $post, $woocommerce;
+				$output = '';
+				if ( has_post_thumbnail() ) {
+					$src = get_the_post_thumbnail_url( $post->ID, $size );
+					$output .= '<img class=" lazyload " src="http://localhost/mthic/wp-content/uploads/woocommerce-placeholder.png" data-src="' . $src . '" data-srcset="' . $src . '" alt="Lazy loading image">';
+				} else {
+					 $output .= wc_placeholder_img( $size );
+				}
+				return $output;
+			}
+		}
+
+
+		function add_custom_image_class($class) {
+			$class .= ' my-custom-class';
+			return $class;
+		}
+		add_filter('get_image_tag_class', 'add_custom_image_class' );
+
+		// function WPTime_add_custom_class_to_all_images($content){
+		// 	/* Filter by Qassim Hassan - https://wp-time.com */
+		// 	$my_custom_class = "myclassimg"; // your custom class
+		// 	$add_class = str_replace('<img', '<img class="'.$my_custom_class.' ', $content); // add class
+		// 	return $add_class; // display class to image
+		// }
+		add_filter('the_content', 'WPTime_add_custom_class_to_all_images');
+          
+		function new_badge() {
+			global $product;
+				$newness_days = 30; // Number of days the badge is shown
+				$created = strtotime( $product->get_date_created() );
+				if ( ( time() - ( 60 * 60 * 24 * $newness_days ) ) < $created ) {
+					echo '<span class="new-badge">' . esc_html__( 'NEW', 'woocommerce' ) . '</span>';
+			}
+		}
+		add_action( 'woocommerce_before_shop_loop_item_title', 'new_badge', 3 );
 
 		remove_action( 'woocommerce_before_main_content' , 'woocommerce_breadcrumb' , 20, 0);
- 
+
+		add_action( 'woocommerce_after_shop_loop_item_title', 'my_woocommerce_total_sales', 5 );
+		function my_woocommerce_total_sales() {
+			global $product;
+			$units_sold = $product->get_total_sales();
+			echo '<div class="product-total-sales" ><div>' . sprintf( __( 'Đã bán: %s', 'woocommerce' ), $units_sold ) . '</div>';
+		 }
+
+		add_action( 'woocommerce_sale_flash', 'sale_badge_percentage', 25 ); 
 		function sale_badge_percentage() {
 		global $product;
 		if ( ! $product->is_on_sale() ) return;
@@ -58,16 +113,16 @@ if ( ! function_exists( 'walletstore_setup' ) ) :
 			 * Show the product title in the product loop. By default this is an H2.
 			 */
 			function my_woocommerce_template_loop_product_title() {
-				echo '</div><p title= "'. get_the_title() .'" class="' . esc_attr( apply_filters( 'woocommerce_product_loop_title_classes', 'woocommerce-loop-product__title' ) ) . '">' . get_the_title() . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo '</div><p title= "'. get_the_title() .'" class="product-title ' . esc_attr( apply_filters( 'woocommerce_product_loop_title_classes', 'woocommerce-loop-product__title' ) ) . '">' . get_the_title() . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		}
 		remove_action('woocommerce_shop_loop_item_title','woocommerce_template_loop_product_title',10);
 		add_action('woocommerce_shop_loop_item_title','my_woocommerce_template_loop_product_title',10);
 
-		if ( ! function_exists( 'woocommerce_template_loop_product_link_open' ) ) {
-			/**
-			 * Insert the opening anchor tag for products in the loop.
-			 */
+		// if ( ! function_exists( 'woocommerce_template_loop_product_link_open' ) ) {
+		// 	/**
+		// 	 * Insert the opening anchor tag for products in the loop.
+		// 	 */
 			function my_woocommerce_template_loop_product_link_open() {
 				global $product;
 		
@@ -75,7 +130,7 @@ if ( ! function_exists( 'walletstore_setup' ) ) :
 		
 				echo '<a title="'. get_the_title() .'" href="' . esc_url( $link ) . '" class=" product-link woocommerce-LoopProduct-link woocommerce-loop-product__link"><div class="product-img">';
 			}
-		}
+		
 		remove_action('woocommerce_before_shop_loop_item','woocommerce_template_loop_product_link_open',10);
 		add_action('woocommerce_before_shop_loop_item','my_woocommerce_template_loop_product_link_open',10);
 		add_theme_support('woocommerce');

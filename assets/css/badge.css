@@ -1,0 +1,46 @@
+a {
+    color: red;
+}
+span {
+    border: 10px solid black;
+    align-items: center;
+    background-color: red;
+    width: 100px;
+    height: 100px;
+    /* background: red; */
+    display: flex;
+    padding: auto;
+    justify-content: center;
+    align-content: center;
+    clip-path: polygon(40% 0, 60% 0, 88% 75%, 74% 65%, 70% 80%, 50% 27%, 30% 80%, 26% 65%, 12% 75% );
+    position: absolute;
+    z-index: 10;
+}
+.a {
+    background-image: radial-gradient(circle, #d6ff2f, #ffff21, #5e3801);
+    border: 5px solid black;
+    /* background: yellow; */
+    position: relative;
+    border-radius: 50%;
+    width: 52px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* z-index: 10; */
+    background-imgae: radial-gradient(circle, red, yellow);
+    color: white;
+    font-size: 64px;
+}
+.dc {
+    background-color: red;
+    height: 100px;  
+    width: 100px;
+    clip-path: path(M0.5,1
+    C 0.5,1,0,0.7,0,0.3
+    A 0.25,0.25,1,1,1,0.5,0.3
+    A 0.25,0.25,1,1,1,1,0.3
+    C 1,0.7,0.5,1,0.5,1 Z);
+    clip-path: url("#heartPath");
+
+}

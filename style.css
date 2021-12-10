@@ -461,8 +461,7 @@ acronym {
 
 mark,
 ins {
-	background: #fff9c0;
-	text-decoration: none;
+	text-decoration-color: white;
 }
 
 big {

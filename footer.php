@@ -29,6 +29,8 @@
 </div><!-- #page -->
 
 <?php wp_footer(); ?>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/4.1.5/lazysizes.min.js"></script>
+<script src="<?php bloginfo('template_directory') ?>/assets/js/lazyload.js"></script>
 <script src="<?php bloginfo('template_directory') ?>/assets/js/script.js"></script>
 </body>
 </html>

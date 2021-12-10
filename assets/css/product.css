@@ -1,15 +1,29 @@
 html {
     font-size: 16px;
 }
-p.woocommerce-loop-product__title {
-    font-size: 0.8rem;
-}
 .product {
     display: block;
-    width: 25%;
+    width: calc(100% / 6 - 10px);
+    height: 310px;
+    overflow: hidden;
     position: relative;
     text-align: center;
     float: left;
+    margin: 5px;
+    background-color: white;
+    box-shadow: 5px 5px 10px rgb(190 190 190 / 80%);
+}
+.product-title {
+    padding: 2px;
+    font-size: 0.75rem;
+    line-height: 0.8rem;
+    word-wrap: break-word;
+    white-space: normal;
+    overflow: hidden;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }
 .product:hover .button-set {
     opacity: 1;
@@ -55,40 +69,36 @@ p.woocommerce-loop-product__title {
     border-bottom: 0.75rem solid transparent;
     border-right: 8px solid red;
   }
-  .product-price {
-      font-size: 0.9rem;
-      font: 700;
-      color: red;
-  }
- /* .product-sale--on {
-    color: white;
-    height: 25px;
-    font-size: 15px;
-    border-radius: 0px 0px 0px 15px;
-    right: 0;
-    position: absolute;
-    background: blue;
-    justify-content: center;
-    float: left;
-    padding: 0px 5px 0px 10px;
+  .product-total-sales {
+    display: flex;
+    flex-direction: column-reverse;
 }
-.product-sale--on:before {
-    content: "";
-    position: absolute;
-    right: 0px;
-    top: 25px;
-    background: transparent; 
-    box-shadow: 10px -10px 0px blue;
-    width: 30%;
-    height: 104%;
-    border-radius: 50%;
-} */
+.product-total-sales div {
+    padding-right: 0.5rem;
+    font-size: 0.7rem;
+    flex: 1;
+    align-self: flex-end;
+    font-weight: 400;
+    text-decoration: none;
+    margin: 0px;
+}
+  .product-price {
+      flex: 1;
+      align-self: flex-start;
+      font-size: 1rem;
+      font-weight: 700;
+      color: red;
+      padding-left: 0.5rem;
+  }
+  .product-price del {
+    display: none;
+  }
 .product-name {
     display: block;
     overflow: hidden;
 }
-.product-price {
-    font-weight: 700;
+.new-badge {
+    position: absolute;
 }
 .button-set {
     position: absolute;
@@ -103,11 +113,24 @@ p.woocommerce-loop-product__title {
     padding: 5px;
 }
 /*reponsive*/
-@media screen and (max-width: 480px) {
+@media (min-width:280px) and (max-width:375px){
+    .product {
+        margin: 1.5px;
+        width: calc( 50% - 3px );
+    }
+}
+@media (min-width:481px) and (max-width: 770px){
+    .products-list .product {
+        width: calc(100% / 4 - 6px);
+        margin: 3px;
+    }
+}
+@media (min-width:375px) and (max-width: 480px) {
     html {
         font-size: 13px;
     }
     .product {
-        width: 33%;
+        margin: 2px;
+        width: calc( 32% - 4px );
     }
 }

@@ -190,17 +190,16 @@ a:hover {
 .main__carousel-next {
     right: 0px;
 }
-.main__content {
-    margin-top: 30px;
-}
 .product-img img {
     width: 300px;
     object-fit: cover;
 }
+
 /* flash sale css */
-.main__flashsale-title  {
+.main__flashsale-title, .main__bestsaller-title  {
     display: flex;
     height: 4rem;
+    margin-top: 2rem;
     background-color: white;
     align-items: center;
     padding: 0 1rem;
@@ -208,7 +207,8 @@ a:hover {
     /* border-radius: 10px 10px 0px 0px;
     box-shadow: 0px 0px 1px black; */
 }
-.main__flashsale-title h1 {
+.main__flashsale-title h1, .main__bestsaller-title h1 {
+    text-transform: uppercase;
     font-size: 2rem;
     font-weight: 700;
     color: red;
@@ -225,26 +225,27 @@ a:hover {
     background-color: white;
     position: relative;
 }
-.main__flashsale-list {
-    overflow:hidden;
+.main__flashsale-list,  .main__bestsaller-bot{
+    overflow-x: auto;
+    overflow-y: hidden;
+
 }
-.main__flashsale-product::-webkit-scrollbar {
+.main__flashsale-list::-webkit-scrollbar, .main__bestsaller-bot::-webkit-scrollbar {
     display: none;
-    width: 0px;
 }
 .main__flashsale-list .woocommerce  .products-list  {
     display: flex;
     width: 200%;
+    transition: all 1s ease-in;
 }
 .main__flashsale-list .woocommerce  .products-list .product {
-    width: 10%;
+    width: calc(200%/10 - 10px);
 }
 .main__flashsale-checkbox {
     display: none;
 }
 #main-flashsale-checkbox:checked ~ .main__flashsale-list .woocommerce  .products-list {
-    transform: translateX(100%);
-    transition: all 1s ease-in;
+    transform: translateX(-50%);
 }
 .main__flashsale-prev, .main__flashsale-next {
     position: absolute;
@@ -269,6 +270,88 @@ a:hover {
 }
 .main__flashsale-prev {
     left: -1rem;
+}
+.main__bestsaller-product {
+    padding-top: 0.5rem;
+    display: flex;
+    background-color: white;
+}
+.main__bestsaller-top {
+    flex: 4;
+    display: flex;
+}
+.main__bestsaller-1 {
+    flex: 2;
+    position: relative;
+    margin-right: 0.3rem;
+}
+.main__bestsaller-23 {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.main__bestsaller-2 , .main__bestsaller-3 {
+    position: relative;
+    margin-bottom: 0.3rem
+}
+.main__bestsaller-bot {
+    flex: 6;
+    height: 300px;
+    padding-left: 1rem ;
+}
+.main__bestsaller-list {
+    width: 250%;
+}
+.main__bestsaller-list .woocommerce .products-list {
+    display: flex;
+}
+.main__bestsaller-badge-1, .main__bestsaller-badge-2, .main__bestsaller-badge-3 {
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    
+}
+.main__bestsaller-badge-1 {
+    color: white;
+    font-weight: 700;
+    background: red;
+    width: 3rem;
+    height: 3rem;
+    clip-path: polygon(0 0, 100% 0, 92% 80%, 50% 100%,11% 80%);
+    font-size: 2rem;
+}
+.main__bestsaller-badge-2, .main__bestsaller-badge-3 {
+    font-weight: 600;
+    background: #f2922f;
+    width: 2rem;
+    height: 2rem;
+    clip-path: polygon(0 0,100% 0 ,100% 80%, 50% 100%, 0 80%);
+    font-size: 1rem;
+}
+.main__bestsaller-details {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+}
+.main__bestsaller-details p {
+    margin: 0;
+    padding: 2px;
+    font-size: 0.75rem;
+    line-height: 0.8rem;
+    word-wrap: break-word;
+    white-space: normal;
+    overflow: hidden;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+.main__bestsaller-details span {
+      font-size: 1rem;
+      font-weight: 700;
+      color: red;
 }
 /* reponsive */
 
@@ -314,6 +397,22 @@ a:hover {
         width: 10px;
         height: 10px;
     }
+}
+@media (min-width:280px) and (max-width:375px) {
+    .main__flashsale-list .woocommerce .products-list {
+        width: 500%;
+    }
+}
+@media (min-width:375px) and (max-width: 480px){
+    .main__flashsale-list .woocommerce .products-list {
+        width: 333% ;
+    }   
+}
+@media (min-width:481px) and (max-width: 771px){
+    .main__flashsale-list .woocommerce .products-list {
+        width: 250%;
+        margin: 3px;
+    }   
 }
 @media  screen and (min-width: 480px) {
     .main__carousel-prev, .main__carousel-next {
