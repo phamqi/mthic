@@ -31,9 +31,46 @@ if ( post_password_required() ) {
 	return;
 }
 ?>
-<div id="product-<?php the_ID(); ?>" <?php wc_product_class( '', $product ); ?>>
+<div onload="init()" class=" single-product container">
+    <?php
+		global
+			$product;
+			$n = 2; ?>
+    <div class="product-modal">
+        <div id="img_single_product" class="modal-list">
+		<div id="indicator" class="modal-indicators">
+		</div>
+		<button id="modal-prev" class="modal-prev"><i class="fas fa-chevron-left"></i></button>
+    	<button id="modal-next" class="modal-next"><i class="fas fa-chevron-right"></i></button>
+            <div class="modal-item">
+                <?php 
+					echo '<img class="abc c" id="img-id" src="' . wp_get_attachment_url($product->get_image_id()) . '" alt="img">'; 
+				?>
+            </div>
+            <?php
+				echo '<div class="modal-item">';
 
-	<?php
+				$attachment_ids = $product->get_gallery_image_ids();
+				foreach( $attachment_ids as $attachment_id ) {
+					echo '<img class="abc" src="'. wp_get_attachment_url( $attachment_id ).'">';
+				}
+				?>
+        </div>
+    </div>
+    <div class="product-thumb">
+        <?php 
+				echo '<img onclick="currentSlide(1)" class="thumbnail" src="' . wp_get_attachment_url($product->get_image_id()) . '" alt="img">'; 
+				$attachment_ids = $product->get_gallery_image_ids();
+				foreach( $attachment_ids as $attachment_id ) {
+				echo '<img onclick="currentSlide('.$n.')" class="thumbnail" src="'. wp_get_attachment_url( $attachment_id ).'">';
+				$n++;
+				}
+				?>
+    </div>
+</div>
+<div id="product-<?php the_ID(); ?>" class="single-product-details">
+
+    <?php
 	/**
 	 * Hook: woocommerce_before_single_product_summary.
 	 *
@@ -42,9 +79,8 @@ if ( post_password_required() ) {
 	 */
 	do_action( 'woocommerce_before_single_product_summary' );
 	?>
-
-	<div class="summary entry-summary">
-		<?php
+    <div class="summary entry-summary">
+        <?php
 		/**
 		 * Hook: woocommerce_single_product_summary.
 		 *
@@ -59,9 +95,12 @@ if ( post_password_required() ) {
 		 */
 		do_action( 'woocommerce_single_product_summary' );
 		?>
+    </div>
 	</div>
-
-	<?php
+</div>
+<!-- <script src="<?php bloginfo('template_directory') ?>/assets/js/loadimg.js"></script> -->
+<div class="sing-product data-tab">
+    <?php
 	/**
 	 * Hook: woocommerce_after_single_product_summary.
 	 *
@@ -72,5 +111,6 @@ if ( post_password_required() ) {
 	do_action( 'woocommerce_after_single_product_summary' );
 	?>
 </div>
-
 <?php do_action( 'woocommerce_after_single_product' ); ?>
+</div>
+<script src="<?php bloginfo('template_directory') ?>/assets/js/loadimg.js"></script>

@@ -50,7 +50,7 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 					$show_add_to_cart_button = true;
 				}
 
-				echo '<tr id="product-' . esc_attr( $grouped_product_child->get_id() ) . '" class="woocommerce-grouped-product-list-item ' . esc_attr( implode( ' ', wc_get_product_class( '', $grouped_product_child ) ) ) . '">';
+				echo '<tr id="product-' . esc_attr( $grouped_product_child->get_id() ) . '" class="woocommerce-grouped-product-list-item >' . esc_attr( implode( ' ', wc_get_product_class( '', $grouped_product_child ) ) ) . '">';
 
 				// Output columns for each product.
 				foreach ( $grouped_product_columns as $column_id ) {

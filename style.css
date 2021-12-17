@@ -417,9 +417,9 @@ h6 {
 	clear: both;
 }
 
-p {
+/* p {
 	margin-bottom: 1.5em;
-}
+} */
 
 dfn,
 cite,
@@ -521,7 +521,7 @@ img {
 }
 
 figure {
-	margin: 1em 0;
+	margin: 0;
 }
 
 table {

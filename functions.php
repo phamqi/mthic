@@ -27,7 +27,120 @@ if ( ! function_exists( 'walletstore_setup' ) ) :
 		 * If you're building a theme based on Walletstore, use a find and replace
 		 * to change 'walletstore' to the name of your theme in all the template files.
 		 */
-		// add_action( 'woocommerce_after_shop_loop_item_title', 'test', 5 );s
+		//remvoe sale badge single peoduct
+
+	   remove_action( 'woocommerce_before_single_product_summary','woocommerce_show_product_sale_flash', 10);
+		//remove product image
+		remove_action( 'woocommerce_before_single_product_summary','woocommerce_show_product_images', 20 );
+
+		function add_content_after_addtocart() {
+			$current_product_id = get_the_ID();
+			$product = wc_get_product( $current_product_id );
+			$checkout_url = WC()->cart->get_checkout_url();
+			if( $product->is_type( 'simple' ) ){
+				echo '<a href="'.$checkout_url.'?add-to-cart='.$current_product_id.'" class="buy-now-simple">Buy Now</a>';
+			}
+			function buy_now_variable() {
+				echo $_POST['variation-id'];
+	
+			}
+		}
+		add_action( 'woocommerce_after_add_to_cart_button', 'add_content_after_addtocart' );
+
+		// Replace range price to selected product's price
+		function selected_variation_price_replace_variable_price_range(){
+			global $product;
+
+			if( $product->is_type('variable') ):
+			?><style>
+		.woocommerce-variation-price {
+			display: none;
+		}
+		</style>
+		<script>
+		jQuery(function($) {
+			var p = 'p.price'
+			q = $(p).html();
+
+			$('form.cart').on('show_variation', function(event, data) {
+				if (data.price_html) {
+					$(p).html(data.price_html);
+				}
+			}).on('hide_variation', function(event) {
+				$(p).html(q);
+			});
+		});
+		</script>
+		<?php
+			endif;
+		}
+		add_action('woocommerce_before_add_to_cart_form', 'selected_variation_price_replace_variable_price_range');
+		
+		//remove img s ingle product
+		remove_action( 'woocommerce_before_single_product_summary','woocommerce_show_product_images', 20 );
+
+
+		//remove short description	
+		remove_action( 'woocommerce_single_product_summary','woocommerce_template_single_excerpt', 20);
+		//remove a linh in image single product
+		function custom_remove_product_link( $html ) {
+			return strip_tags( $html, '<div><img>' );
+		}
+		add_filter( 'woocommerce_single_product_image_thumbnail_html', 'custom_remove_product_link' );
+
+		
+		//remove price variation product
+		function grouped_price_range_from( $price, $product, $child_prices ) {
+		$prices = array( min( $child_prices ), max( $child_prices ) );
+		$price = $prices[0] !== $prices[1] ? sprintf( __( '%1$s', 'woocommerce' ), wc_price( $prices[0] ) ) : wc_price( $prices[0] );
+		return $price;
+		}
+		add_filter( 'woocommerce_grouped_price_html', 'grouped_price_range_from', 10, 3 );
+
+		function wc_varb_price_range( $wcv_price, $product ) {
+			$prefix = sprintf('%s ', __('', 'wcvp_range'));
+			$wcv_reg_min_price = $product->get_variation_regular_price( 'min', true );	
+			$wcv_min_sale_price    = $product->get_variation_sale_price( 'min', true );	
+			$wcv_max_price = $product->get_variation_price( 'max', true );	
+			$wcv_min_price = $product->get_variation_price( 'min', true );		
+			$wcv_price = ( $wcv_min_sale_price == $wcv_reg_min_price ) ?
+		
+				wc_price( $wcv_reg_min_price ) :
+		
+				'<ins>' . wc_price( $wcv_min_sale_price ) . '</ins>'.'<ins class="max-price"> - ' . wc_price( $wcv_reg_min_price ) . '</ins>';		
+			return ( $wcv_min_price == $wcv_max_price ) ?		
+				$wcv_price :		
+				sprintf('%s %s', $prefix, $wcv_price);
+		}
+		add_filter( 'woocommerce_variable_sale_price_html', 'wc_varb_price_range', 10, 2 );
+		add_filter( 'woocommerce_variable_price_html', 'wc_varb_price_range', 10, 2 );
+
+		//remove star rating
+		remove_action('woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_rating', 5);
+
+		//add star average rating, view, units sold
+		function add_start_average_rating (){
+			global $product;
+			$average = $product->get_average_rating();
+			$review_count = $product->get_review_count();
+			$reviewperk = $review_count / 1000;
+			$total_sales = $product->get_total_sales();
+			$total_salesperk = $total_sales / 1000;
+			echo '<div class="rate-review-total-price"><div class="rate-review-total"><p class="avarage-rating"><i class="fas fa-star"></i> ' . sprintf( __( '%s', 'woocommerce' ), $average ).wc_get_rating_html($average) . '</p>';
+			if( $reviewperk >= 1){
+				echo '<p class="review-count">'. sprintf( __('Đánh giá: %s', 'woocomerece'), $reviewperk).'k'. '</p>';
+			} else {
+				echo '<p class="review-count">'. sprintf( __('Đánh giá: %s', 'woocomerece'), $review_count). '</p>';
+			}
+			if( $total_salesperk >= 1) {
+				echo '<p class="total-sales">' . sprintf( __( 'Đã bán: %s', 'woocommerce' ), $total_sales ) .'k'. '</p></div>';
+			} else {
+				echo '<p class="total-sales">' . sprintf( __( 'Đã bán: %s', 'woocommerce' ), $total_sales ) . '</p></div>';
+			}	
+		 }
+		add_action('woocommerce_single_product_summary', 'add_start_average_rating', 5, 10);
+
+
 		add_action('init', function(){
 		remove_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail', 10);
 		add_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail', 10);
@@ -50,21 +163,6 @@ if ( ! function_exists( 'walletstore_setup' ) ) :
 				return $output;
 			}
 		}
-
-
-		function add_custom_image_class($class) {
-			$class .= ' my-custom-class';
-			return $class;
-		}
-		add_filter('get_image_tag_class', 'add_custom_image_class' );
-
-		// function WPTime_add_custom_class_to_all_images($content){
-		// 	/* Filter by Qassim Hassan - https://wp-time.com */
-		// 	$my_custom_class = "myclassimg"; // your custom class
-		// 	$add_class = str_replace('<img', '<img class="'.$my_custom_class.' ', $content); // add class
-		// 	return $add_class; // display class to image
-		// }
-		add_filter('the_content', 'WPTime_add_custom_class_to_all_images');
           
 		function new_badge() {
 			global $product;
@@ -82,7 +180,12 @@ if ( ! function_exists( 'walletstore_setup' ) ) :
 		function my_woocommerce_total_sales() {
 			global $product;
 			$units_sold = $product->get_total_sales();
-			echo '<div class="product-total-sales" ><div>' . sprintf( __( 'Đã bán: %s', 'woocommerce' ), $units_sold ) . '</div>';
+			$units_sold_per_k = $units_sold / 1000;
+			if ( $units_sold_per_k >= 1) {
+				echo '<div class="product-total-sales" ><div>' . sprintf( __( 'Đã bán: %s k', 'woocommerce' ), $units_sold_per_k ) . '</div>';
+			} else {
+			echo '<div class="product-total-sales" ><p>' . sprintf( __( 'Đã bán: %s ', 'woocommerce' ), $units_sold ) . '</p>';
+			}
 		 }
 
 		add_action( 'woocommerce_sale_flash', 'sale_badge_percentage', 25 ); 
@@ -286,4 +389,3 @@ require get_template_directory() . '/inc/customizer.php';
 if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
-

@@ -13,6 +13,10 @@
 
 	<footer id="colophon" class="site-footer">
 		<div class="site-info">
+			<?php
+			$checkout_url = WC()->cart->get_checkout_url();
+			?>
+			<a id="checkout-link" href="<?php echo $checkout_url;?>">Check out</a>
 			<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'walletstore' ) ); ?>">
 				<?php
 				/* translators: %s: CMS name, i.e. WordPress. */
@@ -27,9 +31,7 @@
 		</div><!-- .site-info -->
 	</footer><!-- #colophon -->
 </div><!-- #page -->
-
 <?php wp_footer(); ?>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/4.1.5/lazysizes.min.js"></script>
 <script src="<?php bloginfo('template_directory') ?>/assets/js/lazyload.js"></script>
 <script src="<?php bloginfo('template_directory') ?>/assets/js/script.js"></script>
 </body>
