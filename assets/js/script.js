@@ -43,14 +43,3 @@ const nav = () => {
   });
 };
 nav();
-
-document.getElementById("test").addEventListener("click", () => {
-  var variation_id = document.getElementById("variation-input").value;
-  var checkout_link = document.getElementById("checkout-link").href;
-  if (variation_id != 0) {
-    var redirect = checkout_link + "?add-to-cart=" + variation_id;
-    window.location.href = redirect;
-  } else {
-    alert(" Vui long chon san pham");
-  }
-});

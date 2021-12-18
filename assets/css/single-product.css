@@ -1,3 +1,6 @@
+li {
+    text-decoration: none;
+}
 p {
     margin-top: 0;
     margin-bottom: 0.7rem;
@@ -121,26 +124,95 @@ tr.product {
 }
 .thumbnail {
     margin: 5px;
-    width: calc(20% - 5px);
+    width: calc(14% - 5px);
 }
 .thumbnail:hover {
     border: 2px solid red;
 }
-.quick-buy-variable {
-    height: 2rem;
-    font-size: 1rem;
-    font-weight: 600;
-    display: block;
-    text-align: center;
-    justify-content: center;
-    width: 50%;
+.single-product-dialog  {
+    display:  none;
+    z-index: 25;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+.buy-action {
+    z-index: 25;
+    display: none;
     position: fixed;
     bottom: 0;
-    right: 0;
-    z-index: 30;
+    left: 0;
+    width: 100%;
+    border-top: 1px solid rgba(0, 0, 0, 0.4);
+    justify-content: center;
+}
+.buy-action .normal-buy, .buy-action .quick-buy {
+    display: flex;
+    flex: 1;
+    font-size: 1.3rem;
+    font-weight: 600;
+    justify-content: center;
+    align-items: center;
+    height: 3rem;
+    background-color: seagreen;
+}
+.buy-action .quick-buy {
+    z-index: 35;
+    background-color: tomato;
+}
+.single-product-tab {
+    padding-top: 1rem;
     background-color: white;
+    margin-top: 1rem;
+}
+.single-product-tab .tabs {
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+.single-product-tab .tabs li {
+    text-align: center;
+    list-style: none;
+    flex: 1;
+}
+.single-product-tab .tabs li a{
+    font-size: 1rem;
+}
+.single-product-tab li  .active {
+    border-bottom: 2px solid red;
+}
+.stars a {
+    position: relative;
+    height: 1em;
+    width: 1em;
+    text-indent: -999em;
+    display: inline-block;
+    text-decoration: none;
+    box-shadow: none;
+}
+.woocommerce-tabs #reviews p.stars.selected a:not(.active)::before {
+    content: '\e020';
 }
 
+.woocommerce-tabs #reviews p.stars:hover a::before {
+    content: '\e020';
+}
+.woocommerce-tabs #reviews p.stars a::before {
+    color: turquoise;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1em;
+    height: 1em;
+    line-height: 1;
+    font-family: WooCommerce;
+    content: '\e021';
+    text-indent: 0;
+}
 @media screen and  (max-width:768px){
     .single-product {
         display: block;
@@ -150,10 +222,43 @@ tr.product {
     }
 }
     @media screen and (max-width:576px){
+        .buy-action {
+            display: flex;
+        }
         .single-product-details {
             padding: 0;
         }
-        .cart {
+        #cart-single {
+            display: flex;
+            z-index: 25;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            border-top: 1px solid rgba(0, 0, 0, 0.4);
+            justify-content: center;
+
+        }
+        #cart-single button, #cart-single .quick-buy {
+            display: flex;
+            width: 50%;
+            font-size: 1.3rem;
+            font-weight: 600;
+            justify-content: center;
+            align-items: center;
+            height: 3rem;
+            background-color: seagreen;
+            margin: 0;
+            padding: 0;
+            border: none;
+            border-radius: none;
+        }
+        #cart-single .quick-buy {
+            z-index: 35;
+            background-color: tomato;
+        }
+        #cart-variable {
+            display: none;
             z-index: 30;
             position: fixed;
             bottom: 0;
@@ -183,4 +288,115 @@ tr.product {
             width: 100%;
             height: auto;
         }
+}
+.woo-variation-swatches .woo-variation-raw-select, .woo-variation-swatches .woo-variation-raw-select+.select2 {
+    display: none!important;
+}
+.woo-variation-swatches .variable-items-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0!important;
+    padding: 0;
+    list-style: none;
+}
+.woo-variation-swatches.wvs-style-rounded .variable-items-wrapper .variable-item, .woo-variation-swatches.wvs-style-rounded .variable-items-wrapper .variable-item .variable-item-span, .woo-variation-swatches.wvs-style-rounded .variable-items-wrapper .variable-item .variable-item-span:after, .woo-variation-swatches.wvs-style-rounded .variable-items-wrapper .variable-item img {
+    border-radius: 100%;
+}
+
+.woo-variation-swatches .variable-items-wrapper .variable-item:not(.radio-variable-item) {
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 30%);
+    padding: 2px;
+    margin: 4px 8px 4px 0;
+}
+.woo-variation-swatches .variable-items-wrapper .variable-item {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    transition: all .2s ease;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: none;
+}
+.variable-item:not(.radio-variable-item) {
+    width: 30px;
+    height: 30px;
+}
+.wvs-has-image-tooltip, [data-wvstooltip] {
+    position: relative;
+    cursor: pointer;
+    outline: none;
+}
+li {
+    line-height: 1.8;
+}
+.woo-variation-swatches .woo-variation-raw-select, .woo-variation-swatches .woo-variation-raw-select+.select2 {
+    display: none!important;
+}
+
+table.variations select {
+    margin-right: 0.5rem;
+}
+body:lang(vi), button:lang(vi), input:lang(vi), select:lang(vi), optgroup:lang(vi), textarea:lang(vi), .author-description .author-link:lang(vi), .comment-metadata:lang(vi), .comment-reply-link:lang(vi), .comments-title:lang(vi), .comment-author .fn:lang(vi), .discussion-meta-info:lang(vi), .entry-meta:lang(vi), .entry-footer:lang(vi), .main-navigation:lang(vi), .no-comments:lang(vi), .not-found .page-title:lang(vi), .error-404 .page-title:lang(vi), .post-navigation .post-title:lang(vi), .page-links:lang(vi), .page-description:lang(vi), .pagination .nav-links:lang(vi), .sticky-post:lang(vi), .site-title:lang(vi), .site-info:lang(vi), #cancel-comment-reply-link:lang(vi), h1:lang(vi), h2:lang(vi), h3:lang(vi), h4:lang(vi), h5:lang(vi), h6:lang(vi), .page-title:lang(vi), blockquote cite:lang(vi), table:lang(vi), .button:lang(vi), input:lang(vi)[type="button"], input:lang(vi)[type="reset"], input:lang(vi)[type="submit"], .comment-navigation .nav-previous:lang(vi), .comment-navigation .nav-next:lang(vi), .comment-list .pingback .comment-body:lang(vi), .comment-list .trackback .comment-body:lang(vi), .comment-list .pingback .comment-body .comment-edit-link:lang(vi), .comment-list .trackback .comment-body .comment-edit-link:lang(vi), .comment-form .comment-notes:lang(vi), .comment-form label:lang(vi), .widget_archive ul li:lang(vi), .widget_categories ul li:lang(vi), .widget_meta ul li:lang(vi), .widget_nav_menu ul li:lang(vi), .widget_pages ul li:lang(vi), .widget_recent_comments ul li:lang(vi), .widget_recent_entries ul li:lang(vi), .widget_rss ul li:lang(vi), .widget_tag_cloud .tagcloud:lang(vi), .widget_calendar .calendar_wrap .wp-calendar-nav:lang(vi), .entry .entry-content .wp-block-button .wp-block-button__link:lang(vi), .entry .entry-content .wp-block-archives li > a:lang(vi), .entry .entry-content .wp-block-categories li > a:lang(vi), .entry .entry-content .wp-block-latest-posts li > a:lang(vi), .entry .entry-content .wp-block-latest-posts .wp-block-latest-posts__post-date:lang(vi), .entry .entry-content .wp-block-verse:lang(vi), .entry .entry-content .has-drop-cap:lang(vi):not(:focus):first-letter, .entry .entry-content .wp-block-pullquote cite:lang(vi), .entry .entry-content .wp-block-cover-image .wp-block-cover-image-text:lang(vi), .entry .entry-content .wp-block-cover-image .wp-block-cover-text:lang(vi), .entry .entry-content .wp-block-cover-image h2:lang(vi), .entry .entry-content .wp-block-cover .wp-block-cover-image-text:lang(vi), .entry .entry-content .wp-block-cover .wp-block-cover-text:lang(vi), .entry .entry-content .wp-block-cover h2:lang(vi), .entry .entry-content .wp-block-audio figcaption:lang(vi), .entry .entry-content .wp-block-video figcaption:lang(vi), .entry .entry-content .wp-block-image figcaption:lang(vi), .entry .entry-content .wp-block-gallery .blocks-gallery-image figcaption:lang(vi), .entry .entry-content .wp-block-gallery .blocks-gallery-item figcaption:lang(vi), .entry .entry-content .wp-block-file:lang(vi), .entry .entry-content .wp-block-file .wp-block-file__button:lang(vi), .entry .entry-content .wp-block-latest-comments .wp-block-latest-comments__comment-meta:lang(vi), .wp-caption-text:lang(vi), .gallery-caption:lang(vi) {
+    font-family: "Libre Franklin", sans-serif;
+}
+button, input, select, optgroup, textarea {
+    color: #111;
+    font-family: "NonBreakingSpaceOverride", "Hoefler Text", Garamond, "Times New Roman", serif;
+    font-weight: 400;
+    line-height: 1.8;
+    text-rendering: optimizeLegibility;
+}
+button, select {
+    text-transform: none;
+}
+button, input, optgroup, select, textarea {
+    font-family: inherit;
+    font-size: 100%;
+    line-height: 1.15;
+    margin: 0;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+user agent stylesheet
+select:not(:-internal-list-box) {
+    overflow: visible !important;
+}
+.woo-variation-swatches.wvs-style-rounded .variable-items-wrapper .variable-item, .woo-variation-swatches.wvs-style-rounded .variable-items-wrapper .variable-item .variable-item-span, .woo-variation-swatches.wvs-style-rounded .variable-items-wrapper .variable-item .variable-item-span:after, .woo-variation-swatches.wvs-style-rounded .variable-items-wrapper .variable-item img {
+    border-radius: 100%;
+}
+
+.woo-variation-swatches .variable-items-wrapper .variable-item:not(.radio-variable-item) {
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 30%);
+    padding: 2px;
+    margin: 4px 8px 4px 0;
+}
+.woo-variation-swatches .variable-items-wrapper .variable-item {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    transition: all .2s ease;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: none;
+}
+.variable-item:not(.radio-variable-item) {
+    width: 30px;
+    height: 30px;
 }

@@ -15,8 +15,10 @@
 		<div class="site-info">
 			<?php
 			$checkout_url = WC()->cart->get_checkout_url();
+			$home_url = 1;
 			?>
 			<a id="checkout-link" href="<?php echo $checkout_url;?>">Check out</a>
+			<a id="home-link" href="<?php echo $home_url;?>">Home</a>
 			<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'walletstore' ) ); ?>">
 				<?php
 				/* translators: %s: CMS name, i.e. WordPress. */

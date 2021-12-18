@@ -31,7 +31,7 @@ if ( post_password_required() ) {
 	return;
 }
 ?>
-<div onload="init()" class=" single-product container">
+<div class=" single-product container">
     <?php
 		global
 			$product;
@@ -98,8 +98,7 @@ if ( post_password_required() ) {
     </div>
 	</div>
 </div>
-<!-- <script src="<?php bloginfo('template_directory') ?>/assets/js/loadimg.js"></script> -->
-<div class="sing-product data-tab">
+<div class="single-product-tab container data-tab">
     <?php
 	/**
 	 * Hook: woocommerce_after_single_product_summary.

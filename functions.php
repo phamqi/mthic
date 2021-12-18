@@ -38,7 +38,7 @@ if ( ! function_exists( 'walletstore_setup' ) ) :
 			$product = wc_get_product( $current_product_id );
 			$checkout_url = WC()->cart->get_checkout_url();
 			if( $product->is_type( 'simple' ) ){
-				echo '<a href="'.$checkout_url.'?add-to-cart='.$current_product_id.'" class="buy-now-simple">Buy Now</a>';
+				echo '<a href="'.$checkout_url.'?add-to-cart='.$current_product_id.'" class="quick-buy">Buy Now</a>';
 			}
 			function buy_now_variable() {
 				echo $_POST['variation-id'];
@@ -126,16 +126,16 @@ if ( ! function_exists( 'walletstore_setup' ) ) :
 			$reviewperk = $review_count / 1000;
 			$total_sales = $product->get_total_sales();
 			$total_salesperk = $total_sales / 1000;
-			echo '<div class="rate-review-total-price"><div class="rate-review-total"><p class="avarage-rating"><i class="fas fa-star"></i> ' . sprintf( __( '%s', 'woocommerce' ), $average ).wc_get_rating_html($average) . '</p>';
+			echo '<div class="rate-review-total-price"><div class="rate-review-total"><p id="average-rate" class="avarage-rating"><i class="fas fa-star"></i> ' . sprintf( __( '%s', 'woocommerce' ), $average ).wc_get_rating_html($average) . '</p>';
 			if( $reviewperk >= 1){
-				echo '<p class="review-count">'. sprintf( __('Đánh giá: %s', 'woocomerece'), $reviewperk).'k'. '</p>';
+				echo '<p id="review-count" class="review-count">'. sprintf( __('Đánh giá: %s', 'woocomerece'), $reviewperk).'k'. '</p>';
 			} else {
-				echo '<p class="review-count">'. sprintf( __('Đánh giá: %s', 'woocomerece'), $review_count). '</p>';
+				echo '<p id="review-count" class="review-count">'. sprintf( __('Đánh giá: %s', 'woocomerece'), $review_count). '</p>';
 			}
 			if( $total_salesperk >= 1) {
-				echo '<p class="total-sales">' . sprintf( __( 'Đã bán: %s', 'woocommerce' ), $total_sales ) .'k'. '</p></div>';
+				echo '<p id="total-sales" class="total-sales">' . sprintf( __( 'Đã bán: %s', 'woocommerce' ), $total_sales ) .'k'. '</p></div>';
 			} else {
-				echo '<p class="total-sales">' . sprintf( __( 'Đã bán: %s', 'woocommerce' ), $total_sales ) . '</p></div>';
+				echo '<p id="total-sales" class="total-sales">' . sprintf( __( 'Đã bán: %s', 'woocommerce' ), $total_sales ) . '</p></div>';
 			}	
 		 }
 		add_action('woocommerce_single_product_summary', 'add_start_average_rating', 5, 10);
