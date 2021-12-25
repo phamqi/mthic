@@ -21,10 +21,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 ?>
-<li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
+<li class="li-comment" <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
 
-	<div id="comment-<?php comment_ID(); ?>" class="comment_container">
-
+	<div id="comment-<?php comment_ID(); ?>" class="comment-details comment_container">
+		<div class="comment-detail">
 		<?php
 		/**
 		 * The woocommerce_review_before hook
@@ -33,7 +33,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 		 */
 		do_action( 'woocommerce_review_before', $comment );
 		?>
-
+		<div class="avatar-star-rating">
+		<strong class="woocommerce-review__author"><?php comment_author(); ?> </strong>
+			<?php
+				global $comment;
+				$rating = intval( get_comment_meta( $comment->comment_ID, 'rating', true ) );
+				
+				if ( $rating && wc_review_ratings_enabled() ) {
+					switch($rating){
+						case 1: echo '<span class="stars"><a class="star">1</a></span>';
+						break;
+						case 2: echo '<span class="stars"><a class="star">1</a><a class="star">2</a></span>';
+						break;
+						case 3: echo '<span class="stars"><a class="star">1</a><a class="star">2</a><a class="star">3</a></span>';
+						break;
+						case 4: echo '<span class="stars"><a class="star">1</a><a class="star">2</a><a class="star">3</a><a class="star">3</a></span>';
+						break;
+						case 5: echo '<span class="stars"><a class="star">1</a><a class="star">2</a><a class="star">3</a><a class="star">3</a><a class="star">3</a></span>';
+						break;
+					} // WPCS: XSS ok.
+				}
+				?>
+			</div>
+		</div>
 		<div class="comment-text">
 
 			<?php

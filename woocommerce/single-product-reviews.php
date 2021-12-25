@@ -26,7 +26,7 @@ if ( ! comments_open() ) {
 ?>
 <div id="reviews" class="woocommerce-Reviews">
 	<div id="comments">
-		<h2 class="woocommerce-Reviews-title">
+		<!-- <h2 class="woocommerce-Reviews-title">
 			<?php
 			$count = $product->get_review_count();
 			if ( $count && wc_review_ratings_enabled() ) {
@@ -37,7 +37,7 @@ if ( ! comments_open() ) {
 				esc_html_e( 'Reviews', 'woocommerce' );
 			}
 			?>
-		</h2>
+		</h2> -->
 
 		<?php if ( have_comments() ) : ?>
 			<ol class="commentlist">

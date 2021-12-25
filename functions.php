@@ -27,8 +27,59 @@ if ( ! function_exists( 'walletstore_setup' ) ) :
 		 * If you're building a theme based on Walletstore, use a find and replace
 		 * to change 'walletstore' to the name of your theme in all the template files.
 		 */
-		//remvoe sale badge single peoduct
+		add_filter( 'woocommerce_product_additional_information_heading', '__return_null' );
 
+		//remove meta 
+		remove_action( 'woocommerce_single_product_summary','woocommerce_template_single_meta', 40 );
+
+		//add min plus button for quantity
+		function ts_quantity_plus_sign() {
+		   echo '<button type="button" class="plus" >+</button></div></div>';
+		}
+		add_action( 'woocommerce_before_add_to_cart_quantity', 'ts_quantity_minus_sign' );
+		function ts_quantity_minus_sign() {
+		   echo '<div class="quantity-single-product"><label>So luong</label><div class="quantity-add-to-cart"><button type="button" class="minus" >-</button>';
+		}
+		add_action( 'wp_footer', 'ts_quantity_plus_minus' );
+		function ts_quantity_plus_minus() {
+		   // To run this on the single product page
+		   if ( ! is_product() ) return;
+		   ?>
+		   <script type="text/javascript">			  
+			  jQuery(document).ready(function($){   	  
+					$('form.cart').on( 'click', 'button.plus, button.minus', function() {
+					// Get current quantity values
+					var qty = $( this ).closest( 'form.cart' ).find( '.qty' );
+					var val   = parseFloat(qty.val());
+					var max = parseFloat(qty.attr( 'max' ));
+					var min = parseFloat(qty.attr( 'min' ));
+					var step = parseFloat(qty.attr( 'step' ));
+					// Change the value if plus or minus
+					if ( $( this ).is( '.plus' ) ) {
+					   if ( max && ( max <= val ) ) {
+						  qty.val( max );
+					   } 
+					else {
+					   qty.val( val + step );
+						 }
+					} 
+					else {
+					   if ( min && ( min >= val ) ) {
+						  qty.val( min );
+					   } 
+					   else if ( val > 1 ) {
+						  qty.val( val - step );
+					   }
+					}				 
+				 });	  
+			  });
+		   </script>
+		   <?php
+		}
+		add_action( 'woocommerce_after_add_to_cart_quantity', 'ts_quantity_plus_sign' );
+
+
+		//remvoe sale badge single peoduct
 	   remove_action( 'woocommerce_before_single_product_summary','woocommerce_show_product_sale_flash', 10);
 		//remove product image
 		remove_action( 'woocommerce_before_single_product_summary','woocommerce_show_product_images', 20 );
@@ -116,6 +167,7 @@ if ( ! function_exists( 'walletstore_setup' ) ) :
 		add_filter( 'woocommerce_variable_price_html', 'wc_varb_price_range', 10, 2 );
 
 		//remove star rating
+		remove_action( 'woocommerce_single_product_summary','woocommerce_template_single_rating', 10 );
 		remove_action('woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_rating', 5);
 
 		//add star average rating, view, units sold
@@ -126,7 +178,7 @@ if ( ! function_exists( 'walletstore_setup' ) ) :
 			$reviewperk = $review_count / 1000;
 			$total_sales = $product->get_total_sales();
 			$total_salesperk = $total_sales / 1000;
-			echo '<div class="rate-review-total-price"><div class="rate-review-total"><p id="average-rate" class="avarage-rating"><i class="fas fa-star"></i> ' . sprintf( __( '%s', 'woocommerce' ), $average ).wc_get_rating_html($average) . '</p>';
+			echo '<div class="rate-review-total-price"><div class="rate-review-total"><p id="average-rate" class="avarage-rating"><i class="fas fa-star"></i> ' . sprintf( __( '%s', 'woocommerce' ), $average ). '</p>';
 			if( $reviewperk >= 1){
 				echo '<p id="review-count" class="review-count">'. sprintf( __('Đánh giá: %s', 'woocomerece'), $reviewperk).'k'. '</p>';
 			} else {

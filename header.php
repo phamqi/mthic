@@ -34,7 +34,7 @@
 
 <body id="lethi-wallet" class="body" <?php body_class(); ?>>
     <?php wp_body_open(); ?>
-    <header>
+    <header class="header-background">
         <div id="search-modal" class="searchModal">ABC ABC ACB ACBACB ABCABC
             <form action="search"></form>
             <div id="btn-cs" href=""><i class="fas fa-times"></i></div>

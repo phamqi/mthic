@@ -2,6 +2,7 @@ const normal_buy = document.getElementById("normal-buy");
 const cart_variable =  document.getElementById("cart-variable");
 const quick_buy =  document.getElementById("quick-buy");
 const dialog = document.getElementById("single-product-dialog");
+const closebtn = document.getElementById("close-btn");
 
 function showCartvariable() {
     cart_variable.style.display = "block";
@@ -13,17 +14,11 @@ function showCartvariable() {
   }
   
   dialog.addEventListener("click", ()=>{hiddenCartvariable()});
+  closebtn.addEventListener("click", ()=> {hiddenCartvariable()});
   
   
   normal_buy.addEventListener("click", () => {
-    var variation_id = document.getElementById("variation-input").value;
-    var current_link = window.location.href;
-    if (variation_id != 0) {
-      var redirect = current_link+"?add-to-cart=" + variation_id;
-      window.location.href = redirect;
-    } else {
       showCartvariable();
-    }
   });
   
   quick_buy.addEventListener("click", () => {
